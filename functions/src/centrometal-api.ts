@@ -154,7 +154,12 @@ export async function getBoilerDataWithAuth(
             if (trafficData && statusData) {
                 cachedInstallationId = instId;
                 logger.info("Cached session cookie was successful");
-                return { trafficData, statusData, installationId: instId, fromCache: true };
+                return {
+                    trafficData: trafficData as unknown,
+                    statusData: statusData as InstallationStatusResponse,
+                    installationId: instId,
+                    fromCache: true
+                };
             }
         } else {
             logger.info("Could not resolve installationId with cached session. Might be expired.");
@@ -195,5 +200,10 @@ export async function getBoilerDataWithAuth(
         throw new Error("Successfully logged in, but failed to fetch data.");
     }
 
-    return { trafficData, statusData, installationId: instId, fromCache: false };
+    return {
+        trafficData: trafficData as unknown,
+        statusData: statusData as InstallationStatusResponse,
+        installationId: instId,
+        fromCache: false
+    };
 }

@@ -1,73 +1,81 @@
-# Welcome to your Lovable project
+# ThermoWatch
 
-## Project info
+ThermoWatch is a modern, real-time web dashboard built specifically to monitor and analyze Centrometal biological heating systems (e.g., BioTec-L). It provides an intuitive, detailed visualization of your home's heating infrastructure, including boiler temperatures, buffer tanks, radiators, and pump statuses.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## Features
 
-## How can I edit this code?
+- **Real-Time System Dashboard:** Visualizes the entire heating system with live data fetching.
+- **Dynamic Heating Diagram:** Shows the current room temperature alongside target settings (calculated with base setting + correction values).
+- **Backend Integrations:** Built with Firebase Functions to periodically scrape and poll the official Centrometal web portal. Data is then saved to Firestore for real-time frontend access.
+- **Live Updates:** Uses Firebase Firestore listeners (`onSnapshot`) to push updates instantly to the dashboard without refreshing the page.
+- **Secure Authentication:** Integrated with Firebase Authentication to protect viewing system data behind a login page.
 
-There are several ways of editing your application.
+## Architecture & Technologies
 
-**Use Lovable**
+ThermoWatch is split into two main components:
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+1. **Frontend Application:**
+   - **Framework:** React + Vite
+   - **Language:** TypeScript
+   - **Styling:** Tailwind CSS + shadcn/ui components
+   - **State Management & Routing:** React Context (for Auth) and React Router DOM.
+   - **Data Fetching:** Custom React hooks listening directly to Firestore.
 
-Changes made via Lovable will be committed automatically to this repo.
+2. **Backend (Firebase Functions):**
+   - **Environment:** Node.js + TypeScript
+   - **Authentication Simulator:** A specialized utility (`centrometal-api.ts`) that manages login sessions with the Centrometal web portal and gracefully handles CSRF tokens and cookies.
+   - **Cron Jobs:** Periodically fetches boiler parameters, parses the data, and stores it in Firestore (`boilerReadings/latest` and historical log documents).
 
-**Use your preferred IDE**
+## Running the Project Locally
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Prerequisites
+- Node.js & npm installed
+- Firebase CLI installed (`npm install -g firebase-tools`)
+- A Firebase project set up with Firestore Database, Authentication (Email/Password), and Firebase Hosting.
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### Quick Start
 
-Follow these steps:
+1. Install dependencies for the frontend application:
+   ```bash
+   npm install
+   ```
+2. Set up your `.env.local` file in the root based on `.env.example`, providing your Firebase configuration details:
+   ```bash
+   VITE_FIREBASE_API_KEY=your_api_key
+   VITE_FIREBASE_AUTH_DOMAIN=your_project_id.firebaseapp.com
+   VITE_FIREBASE_PROJECT_ID=your_project_id
+   VITE_FIREBASE_STORAGE_BUCKET=your_project_id.appspot.com
+   VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+   VITE_FIREBASE_APP_ID=your_app_id
+   ```
+3. Start the Vite development server:
+   ```bash
+   npm run dev
+   ```
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## Backend Configuration
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+To run the Firebase functions locally or deploy them, you must set the Centrometal authentication parameter secrets:
 
-# Step 3: Install the necessary dependencies.
-npm i
+1. Navigate to the `functions/` directory and install dependencies:
+   ```bash
+   cd functions
+   npm install
+   ```
+2. Configure your Centrometal login parameters (these will be safely managed in Secret Manager upon deployment):
+   ```bash
+   firebase functions:secrets:set CENTROMETAL_EMAIL
+   firebase functions:secrets:set CENTROMETAL_PASSWORD
+   ```
+3. To test functions locally:
+   ```bash
+   npm run build
+   firebase emulators:start
+   ```
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+## Deployment
 
-**Edit a file directly in GitHub**
+The project contains GitHub Actions workflows to automate deployment to Firebase Hosting and Firebase Functions whenever code is merged into the `main` branch. 
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+- Pushing a new branch or creating a Pull Request will generate an automatic preview channel via Firebase Hosting.
+- Pushing to `main` will build the frontend (`dist/`), run `tsc` over the `functions`, and deploy the latest app and cloud functions.
