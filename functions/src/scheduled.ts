@@ -38,7 +38,8 @@ export const pollBoilerData = onSchedule("every 20 minutes", async () => {
         await db.collection("boilerReadings").doc("latest").set(snapshot);
 
         logger.info(`Scheduled poll complete. Saved reading at ${timestamp}`);
-    } catch (err: any) {
-        logger.error("Scheduled poll failed:", err.message || err);
+    } catch (err: unknown) {
+        const errorMessage = err instanceof Error ? err.message : String(err);
+        logger.error("Scheduled poll failed:", errorMessage);
     }
 });

@@ -25,8 +25,9 @@ export const getBoilerData = onRequest(async (request, response) => {
     try {
         const result = await getBoilerDataWithAuth(email, password, installationId);
         response.json({ success: true, ...result });
-    } catch (err: any) {
+    } catch (err: unknown) {
         logger.error("Operation failed:", err);
-        response.status(500).json({ error: err.message || "Unknown error occurred" });
+        const errorMessage = err instanceof Error ? err.message : "Unknown error occurred";
+        response.status(500).json({ error: errorMessage });
     }
 });

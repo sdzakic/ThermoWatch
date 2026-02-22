@@ -1,5 +1,5 @@
 import * as logger from "firebase-functions/logger";
-import { BoilerData } from "../../shared/types";
+import { BoilerData, InstallationStatusResponse } from "../../shared/types";
 
 const BASE_URL = 'https://portal.centrometal.hr';
 
@@ -65,7 +65,7 @@ export async function fetchInstallationId(cookie: string): Promise<number | null
     return null;
 }
 
-export async function fetchTrafficData(cookie: string, installationId: number | string): Promise<any | null> {
+export async function fetchTrafficData(cookie: string, installationId: number | string): Promise<unknown | null> {
     const trafficPayload = {
         "params": [
             { "name": "B_Tk1", "color": "#ff0000", "curveType": "function" },
@@ -99,7 +99,7 @@ export async function fetchTrafficData(cookie: string, installationId: number | 
     return await trafficRes.json();
 }
 
-export async function fetchInstallationStatus(cookie: string, installationId: number | string): Promise<any | null> {
+export async function fetchInstallationStatus(cookie: string, installationId: number | string): Promise<InstallationStatusResponse | null> {
     const statusRes = await fetch(`${BASE_URL}/wdata/data/installation-status-all`, {
         method: 'POST',
         headers: {
