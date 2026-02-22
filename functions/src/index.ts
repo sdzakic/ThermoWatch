@@ -1,10 +1,13 @@
+import { setGlobalOptions } from "firebase-functions/v2";
 import { onRequest } from "firebase-functions/v2/https";
 import * as logger from "firebase-functions/logger";
 import { getBoilerDataWithAuth } from "./centrometal-api";
 
+setGlobalOptions({ region: "europe-west1" });
+
 export { pollBoilerData } from "./scheduled";
 
-export const getBoilerData = onRequest(async (request, response) => {
+export const getBoilerData = onRequest({ region: "europe-west1", maxInstances: 1 }, async (request, response) => {
     // Enable CORS
     response.set('Access-Control-Allow-Origin', '*');
     if (request.method === 'OPTIONS') {

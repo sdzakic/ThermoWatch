@@ -7,7 +7,7 @@ import { getBoilerDataWithAuth } from "./centrometal-api";
 const centrometalEmail = defineString("CENTROMETAL_EMAIL");
 const centrometalPassword = defineString("CENTROMETAL_PASSWORD");
 
-export const pollBoilerData = onSchedule("every 20 minutes", async () => {
+export const pollBoilerData = onSchedule({ schedule: "every 20 minutes", region: "europe-west1", maxInstances: 1 }, async () => {
     const email = centrometalEmail.value();
     const password = centrometalPassword.value();
 
