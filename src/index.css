@@ -1,0 +1,364 @@
+@import "tailwindcss";
+
+/* Smart Heating Control Design System
+   Cool blue and white color scheme with modern, clean aesthetics
+*/
+
+/* ── Theme tokens (replaces tailwind.config.ts) ────────────────────── */
+@theme {
+  /* Font */
+  --font-sans: "Inter", system-ui, sans-serif;
+
+  /* Border radius */
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-2xl: 1.5rem;
+  --radius-3xl: 2rem;
+
+  /* Box shadows */
+  --shadow-sm: var(--shadow-sm-val);
+  --shadow-md: var(--shadow-md-val);
+  --shadow-lg: var(--shadow-lg-val);
+  --shadow-glow: var(--shadow-glow-val);
+
+  /* Colors mapped from CSS variables */
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  --color-sidebar: hsl(var(--sidebar-background));
+  --color-sidebar-foreground: hsl(var(--sidebar-foreground));
+  --color-sidebar-primary: hsl(var(--sidebar-primary));
+  --color-sidebar-primary-foreground: hsl(var(--sidebar-primary-foreground));
+  --color-sidebar-accent: hsl(var(--sidebar-accent));
+  --color-sidebar-accent-foreground: hsl(var(--sidebar-accent-foreground));
+  --color-sidebar-border: hsl(var(--sidebar-border));
+  --color-sidebar-ring: hsl(var(--sidebar-ring));
+
+  /* Custom heating app colors */
+  --color-heating: hsl(var(--heating));
+  --color-heating-foreground: hsl(var(--heating-foreground));
+
+  --color-cooling: hsl(var(--cooling));
+  --color-cooling-foreground: hsl(var(--cooling-foreground));
+
+  --color-idle: hsl(var(--idle));
+  --color-idle-foreground: hsl(var(--idle-foreground));
+
+  --color-success: hsl(var(--success));
+  --color-success-foreground: hsl(var(--success-foreground));
+
+  /* Animations */
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+  --animate-pulse-ring: pulse-ring 2s ease-in-out infinite;
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+
+    to {
+      height: 0;
+    }
+  }
+
+  @keyframes pulse-ring {
+
+    0%,
+    100% {
+      opacity: 0.4;
+      transform: scale(1);
+    }
+
+    50% {
+      opacity: 0.8;
+      transform: scale(1.02);
+    }
+  }
+}
+
+/* ── CSS variable definitions (light mode) ─────────────────────────── */
+:root {
+  /* Core backgrounds */
+  --background: 200 30% 97%;
+  --foreground: 210 40% 15%;
+
+  /* Cards */
+  --card: 0 0% 100%;
+  --card-foreground: 210 40% 15%;
+
+  /* Popover */
+  --popover: 0 0% 100%;
+  --popover-foreground: 210 40% 15%;
+
+  /* Primary - cool cyan blue */
+  --primary: 192 91% 36%;
+  --primary-foreground: 0 0% 100%;
+
+  /* Secondary - soft blue-gray */
+  --secondary: 200 20% 94%;
+  --secondary-foreground: 210 40% 25%;
+
+  /* Muted - light blue-gray */
+  --muted: 200 15% 92%;
+  --muted-foreground: 210 15% 50%;
+
+  /* Accent - deeper blue */
+  --accent: 200 80% 50%;
+  --accent-foreground: 0 0% 100%;
+
+  /* Status colors */
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+
+  /* Heating status - warm orange */
+  --heating: 25 95% 53%;
+  --heating-foreground: 0 0% 100%;
+
+  /* Cooling status - cool blue */
+  --cooling: 200 85% 55%;
+  --cooling-foreground: 0 0% 100%;
+
+  /* Idle status - neutral gray */
+  --idle: 210 15% 70%;
+  --idle-foreground: 210 40% 25%;
+
+  /* Success - green for eco mode */
+  --success: 160 70% 40%;
+  --success-foreground: 0 0% 100%;
+
+  /* UI elements */
+  --border: 200 25% 88%;
+  --input: 200 25% 88%;
+  --ring: 192 91% 36%;
+
+  --radius: 1rem;
+
+  /* Sidebar */
+  --sidebar-background: 200 30% 98%;
+  --sidebar-foreground: 210 30% 30%;
+  --sidebar-primary: 192 91% 36%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 200 30% 95%;
+  --sidebar-accent-foreground: 210 30% 25%;
+  --sidebar-border: 200 20% 90%;
+  --sidebar-ring: 192 91% 36%;
+
+  /* Custom gradients */
+  --gradient-primary: linear-gradient(135deg, hsl(192 91% 36%), hsl(200 85% 45%));
+  --gradient-background: linear-gradient(180deg, hsl(200 30% 97%), hsl(200 40% 94%));
+  --gradient-card: linear-gradient(145deg, hsl(0 0% 100%), hsl(200 20% 98%));
+  --gradient-heating: linear-gradient(135deg, hsl(25 95% 53%), hsl(15 90% 55%));
+  --gradient-cooling: linear-gradient(135deg, hsl(200 85% 55%), hsl(210 80% 60%));
+
+  /* Shadows */
+  --shadow-sm-val: 0 2px 8px -2px hsl(200 30% 50% / 0.1);
+  --shadow-md-val: 0 8px 24px -8px hsl(200 30% 50% / 0.15);
+  --shadow-lg-val: 0 16px 48px -12px hsl(200 30% 50% / 0.2);
+  --shadow-glow-val: 0 0 40px -10px hsl(192 91% 36% / 0.4);
+}
+
+/* ── Dark mode ─────────────────────────────────────────────────────── */
+.dark {
+  --background: 210 40% 8%;
+  --foreground: 200 20% 95%;
+
+  --card: 210 35% 12%;
+  --card-foreground: 200 20% 95%;
+
+  --popover: 210 35% 12%;
+  --popover-foreground: 200 20% 95%;
+
+  --primary: 192 85% 50%;
+  --primary-foreground: 210 40% 8%;
+
+  --secondary: 210 30% 18%;
+  --secondary-foreground: 200 20% 90%;
+
+  --muted: 210 25% 20%;
+  --muted-foreground: 200 15% 60%;
+
+  --accent: 200 75% 55%;
+  --accent-foreground: 0 0% 100%;
+
+  --destructive: 0 70% 50%;
+  --destructive-foreground: 0 0% 100%;
+
+  --heating: 25 90% 55%;
+  --heating-foreground: 0 0% 100%;
+
+  --cooling: 200 80% 60%;
+  --cooling-foreground: 0 0% 100%;
+
+  --idle: 210 15% 45%;
+  --idle-foreground: 200 20% 90%;
+
+  --success: 160 65% 45%;
+  --success-foreground: 0 0% 100%;
+
+  --border: 210 25% 22%;
+  --input: 210 25% 22%;
+  --ring: 192 85% 50%;
+
+  --sidebar-background: 210 40% 10%;
+  --sidebar-foreground: 200 20% 90%;
+  --sidebar-primary: 192 85% 50%;
+  --sidebar-primary-foreground: 210 40% 8%;
+  --sidebar-accent: 210 30% 15%;
+  --sidebar-accent-foreground: 200 20% 90%;
+  --sidebar-border: 210 25% 18%;
+  --sidebar-ring: 192 85% 50%;
+}
+
+/* ── Base styles ───────────────────────────────────────────────────── */
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    background: var(--gradient-background);
+    min-height: 100vh;
+  }
+}
+
+/* ── Component styles ──────────────────────────────────────────────── */
+@layer components {
+
+  /* Temperature display ring */
+  .temp-ring {
+    @apply relative rounded-full;
+    background: var(--gradient-card);
+    box-shadow: var(--shadow-lg-val), inset 0 2px 4px hsl(0 0% 100% / 0.5);
+  }
+
+  .temp-ring-heating {
+    box-shadow: var(--shadow-lg-val), 0 0 60px -15px hsl(var(--heating) / 0.5);
+  }
+
+  .temp-ring-cooling {
+    box-shadow: var(--shadow-lg-val), 0 0 60px -15px hsl(var(--cooling) / 0.5);
+  }
+
+  /* Glass card effect */
+  .glass-card {
+    @apply rounded-2xl border border-white/20;
+    background: hsl(0 0% 100% / 0.85);
+    backdrop-filter: blur(20px);
+    box-shadow: var(--shadow-md-val);
+  }
+
+  /* Status badge */
+  .status-badge {
+    @apply inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium;
+  }
+
+  .status-badge-heating {
+    @apply inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium;
+    background: hsl(var(--heating) / 0.15);
+    color: hsl(var(--heating));
+  }
+
+  .status-badge-cooling {
+    @apply inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium;
+    background: hsl(var(--cooling) / 0.15);
+    color: hsl(var(--cooling));
+  }
+
+  .status-badge-idle {
+    @apply inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium;
+    background: hsl(var(--idle) / 0.15);
+    color: hsl(var(--idle));
+  }
+
+  /* Control button */
+  .control-btn {
+    @apply w-14 h-14 rounded-full flex items-center justify-center transition-all duration-200;
+    @apply bg-white border-2 border-border hover:border-primary;
+    @apply active:scale-95 hover:shadow-md;
+  }
+
+  .control-btn-active {
+    @apply w-14 h-14 rounded-full flex items-center justify-center transition-all duration-200;
+    @apply border-2 border-primary bg-primary text-primary-foreground;
+    @apply active:scale-95 hover:shadow-md;
+  }
+
+  /* Mode button */
+  .mode-btn {
+    @apply flex flex-col items-center gap-2 px-4 py-3 rounded-xl transition-all duration-200;
+    @apply bg-secondary/50 hover:bg-secondary text-muted-foreground;
+  }
+
+  .mode-btn-active {
+    @apply flex flex-col items-center gap-2 px-4 py-3 rounded-xl transition-all duration-200;
+    @apply bg-primary text-primary-foreground;
+    box-shadow: var(--shadow-glow-val);
+  }
+
+  /* Schedule card */
+  .schedule-card {
+    @apply p-4 rounded-xl transition-all duration-200;
+    @apply bg-white/60 hover:bg-white border border-transparent hover:border-border;
+  }
+
+  .schedule-card-active {
+    @apply p-4 rounded-xl transition-all duration-200;
+    @apply bg-primary/10 border-primary/30;
+  }
+}
+
+/* ── Utility styles ────────────────────────────────────────────────── */
+@utility animate-pulse-slow {
+  animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@utility animate-glow {
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from {
+    box-shadow: 0 0 20px -10px hsl(var(--heating) / 0.4);
+  }
+
+  to {
+    box-shadow: 0 0 40px -10px hsl(var(--heating) / 0.6);
+  }
+}
