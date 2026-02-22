@@ -7,7 +7,8 @@ interface HeatingSystemDiagramProps {
   radiatorSupplyTemp: number;
   radiatorReturnTemp: number;
   roomTemp: number;
-  targetTemp: number;
+  roomTempSetting: number;
+  roomTempCorrection: number;
   isBoilerRunning: boolean;
   isPump1Running: boolean;
   isPump2Running: boolean;
@@ -67,7 +68,8 @@ export function HeatingSystemDiagram({
   radiatorSupplyTemp,
   radiatorReturnTemp,
   roomTemp,
-  targetTemp,
+  roomTempSetting,
+  roomTempCorrection,
   isBoilerRunning,
   isPump1Running,
   isPump2Running,
@@ -264,12 +266,24 @@ export function HeatingSystemDiagram({
           <div className="rounded-xl border-2 border-primary bg-card p-2 sm:p-3 text-center shadow-lg">
             <div className="text-xl sm:text-2xl font-bold text-foreground">{roomTemp}°C</div>
             <div className="text-[10px] text-muted-foreground">Room Temp</div>
-            <div className="flex items-center justify-center gap-1 mt-1 text-[10px]">
-              <span className="text-muted-foreground">Target:</span>
-              <span className="text-primary font-semibold">{targetTemp}°C</span>
+
+            <div className="flex flex-col items-center justify-center gap-0.5 mt-2 pt-2 border-t border-border/50 text-[10px]">
+              <span className="text-muted-foreground font-medium">Target</span>
+              <div className="flex items-center gap-1">
+                <span>{roomTempSetting}°</span>
+                <span className="text-muted-foreground">+</span>
+                <span className={roomTempCorrection > 0 ? "text-heating" : roomTempCorrection < 0 ? "text-cooling" : ""}>
+                  {roomTempCorrection}°
+                </span>
+                <span className="text-muted-foreground">=</span>
+                <span className="text-primary font-bold">{(roomTempSetting + roomTempCorrection).toFixed(1)}°C</span>
+              </div>
             </div>
-            {roomTemp < targetTemp && (
-              <div className="mt-1 text-[9px] text-heating">+{(targetTemp - roomTemp).toFixed(1)}° needed</div>
+
+            {roomTemp < (roomTempSetting + roomTempCorrection) && (
+              <div className="mt-1 text-[9px] text-heating animate-pulse font-medium">
+                +{(roomTempSetting + roomTempCorrection - roomTemp).toFixed(1)}° needed
+              </div>
             )}
           </div>
         </div>
