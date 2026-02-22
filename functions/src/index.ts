@@ -3,7 +3,12 @@ import { onRequest } from "firebase-functions/v2/https";
 import * as logger from "firebase-functions/logger";
 import { getBoilerDataWithAuth } from "./centrometal-api";
 
-setGlobalOptions({ region: "europe-west1" });
+setGlobalOptions({
+    maxInstances: 1,
+    region: "europe-west1",
+    timeoutSeconds: 60,
+    memory: "256MiB",
+});
 
 export { pollBoilerData } from "./scheduled";
 
