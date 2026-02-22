@@ -19,8 +19,8 @@ jobs:
           channelId: live
           projectId: centrometalthermowatch
           
-      - name: Install Functions dependencies
-        run: npm ci
+      - name: Install and Build Functions dependencies
+        run: npm ci && npm run build
         working-directory: functions
         
       - name: Deploy Firebase Functions
