@@ -46,7 +46,10 @@ jobs:
           CENTROMETAL_EMAIL: ${{ secrets.CENTROMETAL_EMAIL }}
           CENTROMETAL_PASSWORD: ${{ secrets.CENTROMETAL_PASSWORD }}
         run: |
+          echo "CENTROMETAL_EMAIL=$CENTROMETAL_EMAIL" > functions/.env
+          echo "CENTROMETAL_PASSWORD=$CENTROMETAL_PASSWORD" >> functions/.env
           echo "$GCP_SA_KEY" > /tmp/gcp-key.json
           export GOOGLE_APPLICATION_CREDENTIALS=/tmp/gcp-key.json
           npx firebase-tools deploy --only functions --project centrometalthermowatch --non-interactive
           rm /tmp/gcp-key.json
+          rm functions/.env
