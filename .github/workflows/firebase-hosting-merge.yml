@@ -43,6 +43,8 @@ jobs:
       - name: Deploy Firebase Functions
         env:
           GCP_SA_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_CENTROMETALTHERMOWATCH }}
+          CENTROMETAL_EMAIL: ${{ secrets.CENTROMETAL_EMAIL }}
+          CENTROMETAL_PASSWORD: ${{ secrets.CENTROMETAL_PASSWORD }}
         run: |
           echo "$GCP_SA_KEY" > /tmp/gcp-key.json
           export GOOGLE_APPLICATION_CREDENTIALS=/tmp/gcp-key.json
