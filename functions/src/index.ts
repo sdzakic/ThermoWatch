@@ -5,14 +5,14 @@ import { getBoilerDataWithAuth } from "./centrometal-api";
 
 setGlobalOptions({
     maxInstances: 1,
-    region: "europe-west1",
+    region: "europe-west4",
     timeoutSeconds: 60,
     memory: "256MiB",
 });
 
 export { pollBoilerData } from "./scheduled";
 
-export const getBoilerData = onRequest({ region: "europe-west1", maxInstances: 1 }, async (request, response) => {
+export const getBoilerData = onRequest(async (request, response) => {
     // Enable CORS
     response.set('Access-Control-Allow-Origin', '*');
     if (request.method === 'OPTIONS') {
