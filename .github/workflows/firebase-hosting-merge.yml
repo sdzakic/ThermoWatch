@@ -38,8 +38,6 @@ jobs:
       - run: |
           npm ci
           npm run build
-          ls -la ./
-          ls -la lib/
         working-directory: functions
 
       - name: Deploy Firebase Functions
@@ -48,5 +46,5 @@ jobs:
         run: |
           echo "$GCP_SA_KEY" > /tmp/gcp-key.json
           export GOOGLE_APPLICATION_CREDENTIALS=/tmp/gcp-key.json
-          npx firebase-tools deploy --only functions --project centrometalthermowatch
+          npx firebase-tools deploy --only functions --project centrometalthermowatch --non-interactive
           rm /tmp/gcp-key.json
