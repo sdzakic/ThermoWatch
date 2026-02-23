@@ -38,8 +38,8 @@ jobs:
       - run: |
           npm ci
           npm run build
-          ls -la functions/
-          ls -la functions/lib/
+          ls -la ./
+          ls -la lib/
         working-directory: functions
 
       - name: Deploy Firebase Functions
