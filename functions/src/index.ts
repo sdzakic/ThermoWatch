@@ -5,7 +5,7 @@ import { getBoilerDataWithAuth } from "./centrometal-api";
 
 setGlobalOptions({
     maxInstances: 1,
-    region: "europe-west4",
+    region: "europe-west1",
     timeoutSeconds: 60,
     memory: "256MiB",
 });
