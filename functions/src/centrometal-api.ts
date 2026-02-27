@@ -1,5 +1,6 @@
 import * as logger from "firebase-functions/logger";
 import { BoilerData, InstallationStatusResponse } from "../../shared/types";
+import { db } from "./firebase";
 
 const BASE_URL = 'https://portal.centrometal.hr';
 
@@ -10,9 +11,51 @@ const baseHeaders = {
     'Referer': `${BASE_URL}/`
 };
 
-// Cache the session cookie globally so that warm function instances can reuse it
+// ── In-memory L1 cache (survives only within a warm instance) ───────────
 let cachedSessionCookie: string | null = null;
 let cachedInstallationId: number | null = null;
+
+// ── Firestore L2 cache helpers ──────────────────────────────────────────
+
+const SESSION_CACHE_DOC = "config/sessionCache";
+
+interface SessionCache {
+    cookie: string;
+    installationId: number;
+    updatedAt: Date;
+}
+
+async function loadCachedSession(): Promise<SessionCache | null> {
+    try {
+        const doc = await db.doc(SESSION_CACHE_DOC).get();
+        if (!doc.exists) return null;
+
+        const data = doc.data();
+        if (!data?.cookie) return null;
+
+        return {
+            cookie: data.cookie as string,
+            installationId: data.installationId as number,
+            updatedAt: data.updatedAt?.toDate?.() ?? new Date(0)
+        };
+    } catch (err) {
+        logger.warn("Failed to load cached session from Firestore:", err);
+        return null;
+    }
+}
+
+async function saveCachedSession(cookie: string, installationId: number): Promise<void> {
+    try {
+        await db.doc(SESSION_CACHE_DOC).set({
+            cookie,
+            installationId,
+            updatedAt: new Date()
+        });
+        logger.info("Saved session cache to Firestore");
+    } catch (err) {
+        logger.warn("Failed to save session cache to Firestore:", err);
+    }
+}
 
 // ── Individual API calls ────────────────────────────────────────────────
 
@@ -129,7 +172,9 @@ export type { InstallationStatusResponse, InstallationStatus, InstallationInfo, 
 
 /**
  * Authenticates (with session caching) and fetches both traffic + status data.
- * Handles cookie caching and automatic re-login on expiry.
+ * Uses a two-level cache: in-memory (L1) for warm instances, Firestore (L2)
+ * for persistence across cold starts. Re-login only happens when the cookie
+ * is expired or missing.
  */
 export async function getBoilerDataWithAuth(
     email: string,
@@ -137,6 +182,17 @@ export async function getBoilerDataWithAuth(
     installationId?: number | null
 ): Promise<BoilerData> {
     let instId = installationId || cachedInstallationId;
+
+    // 0. On cold starts the in-memory cache is empty – hydrate from Firestore
+    if (!cachedSessionCookie) {
+        const stored = await loadCachedSession();
+        if (stored) {
+            logger.info("Loaded cached session from Firestore");
+            cachedSessionCookie = stored.cookie;
+            cachedInstallationId = stored.installationId;
+            instId = instId || stored.installationId;
+        }
+    }
 
     // 1. Try with cached cookie if available
     if (cachedSessionCookie) {
@@ -190,7 +246,10 @@ export async function getBoilerDataWithAuth(
 
     cachedInstallationId = instId;
 
-    // 4. Fetch data with new session
+    // 4. Persist new session to Firestore for future cold starts
+    await saveCachedSession(cachedSessionCookie, instId);
+
+    // 5. Fetch data with new session
     const [trafficData, statusData] = await Promise.all([
         fetchTrafficData(cachedSessionCookie, instId),
         fetchInstallationStatus(cachedSessionCookie, instId)
