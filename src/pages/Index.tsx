@@ -4,6 +4,7 @@ import { HeatingSystemDiagram } from "@/components/heating/HeatingSystemDiagram"
 import { TemperatureChart } from "@/components/heating/TemperatureChart";
 import { SystemLog } from "@/components/heating/SystemLog";
 import { PumpStatus } from "@/components/heating/PumpStatus";
+import { useTranslation } from "react-i18next";
 
 // Generate mock temperature data
 const generateChartData = () => {
@@ -119,6 +120,7 @@ import { formatDistanceToNow } from "date-fns";
 const Index = () => {
   const [chartData, setChartData] = useState(generateChartData());
   const [timeRange, setTimeRange] = useState("30 min");
+  const { t } = useTranslation();
 
   const { data: boilerDataObj, loading: boilerLoading, error: boilerError, lastUpdate } = useBoilerData();
 
@@ -127,7 +129,7 @@ const Index = () => {
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="flex flex-col items-center gap-4">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-          <p className="text-muted-foreground">Loading boiler data...</p>
+          <p className="text-muted-foreground">{t("index.loadingBoilerData")}</p>
         </div>
       </div>
     );
@@ -137,8 +139,8 @@ const Index = () => {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center space-y-4">
-          <h2 className="text-2xl font-bold text-destructive">Error</h2>
-          <p className="text-muted-foreground">{boilerError || "Data format error"}</p>
+          <h2 className="text-2xl font-bold text-destructive">{t("common.error")}</h2>
+          <p className="text-muted-foreground">{boilerError || t("index.dataFormatError")}</p>
         </div>
       </div>
     );
@@ -151,7 +153,7 @@ const Index = () => {
   if (!instData || !instData.params) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
-        <p className="text-muted-foreground">Invalid data format from boiler.</p>
+        <p className="text-muted-foreground">{t("index.invalidDataFormat")}</p>
       </div>
     );
   }
@@ -189,7 +191,7 @@ const Index = () => {
       <StatusHeader
         systemName={instData.installation?.type || "BioTec-L"}
         isConnected={true}
-        lastUpdate={`Updated ${formattedLastUpdate}`}
+        lastUpdate={t("index.updated", { time: formattedLastUpdate })}
       />
 
       <main className="flex-1 p-4 sm:p-6 overflow-y-auto">

@@ -1,0 +1,108 @@
+{
+    "common": {
+        "on": "ON",
+        "off": "OFF",
+        "active": "Active",
+        "standby": "Standby",
+        "connected": "Connected",
+        "offline": "Offline",
+        "error": "Error",
+        "target": "Target",
+        "loading": "Loading..."
+    },
+    "login": {
+        "title": "ThermoWatch",
+        "subtitle": "Sign in to access your dashboard",
+        "email": "Email",
+        "password": "Password",
+        "signIn": "Sign in",
+        "signingIn": "Signing in...",
+        "failed": "Login failed",
+        "failedDescription": "Please check your credentials and try again.",
+        "secureAuth": "Secure authentication via Firebase"
+    },
+    "index": {
+        "loadingBoilerData": "Loading boiler data...",
+        "dataFormatError": "Data format error",
+        "invalidDataFormat": "Invalid data format from boiler.",
+        "updated": "Updated {{time}}"
+    },
+    "notFound": {
+        "title": "404",
+        "message": "Oops! Page not found",
+        "returnHome": "Return to Home"
+    },
+    "statusHeader": {
+        "justNow": "Just now",
+        "updated": "Updated:"
+    },
+    "diagram": {
+        "systemOverview": "System Overview",
+        "boiler": "Boiler",
+        "fan": "Fan",
+        "bufferTank": "Buffer",
+        "bufferTankLine2": "Tank",
+        "roomTemp": "Room Temp",
+        "needed": "needed",
+        "hot": "Hot",
+        "return": "Return"
+    },
+    "chart": {
+        "temperatureHistory": "Temperature History",
+        "boiler": "Boiler",
+        "bufferTop": "Buffer (top)",
+        "bufferBottom": "Buffer (bottom)",
+        "room": "Room"
+    },
+    "log": {
+        "systemEvents": "System Events",
+        "allEvents": "All events",
+        "errorsOnly": "Errors only",
+        "warnings": "Warnings",
+        "code": "Code",
+        "description": "Description",
+        "start": "Start",
+        "end": "End",
+        "viewAll": "View all {{count}} events"
+    },
+    "pump": {
+        "pumpActivity": "Pump Activity"
+    },
+    "furnace": {
+        "furnaceStatus": "Furnace Status",
+        "running": "Running",
+        "supply": "Supply",
+        "runtime": "Runtime",
+        "efficiency": "Efficiency"
+    },
+    "tempDisplay": {
+        "heating": "Heating",
+        "cooling": "Cooling",
+        "idle": "Idle",
+        "off": "Off",
+        "setTemperature": "Set Temperature",
+        "decreaseTemp": "Decrease temperature",
+        "increaseTemp": "Increase temperature"
+    },
+    "mode": {
+        "title": "Mode",
+        "heat": "Heat",
+        "cool": "Cool",
+        "auto": "Auto",
+        "off": "Off"
+    },
+    "presets": {
+        "quickPresets": "Quick Presets",
+        "home": "Home",
+        "away": "Away",
+        "sleep": "Sleep",
+        "eco": "Eco"
+    },
+    "schedule": {
+        "todaysSchedule": "Today's Schedule"
+    },
+    "header": {
+        "livingRoom": "Living Room",
+        "smartHeatingControl": "Smart Heating Control"
+    }
+}

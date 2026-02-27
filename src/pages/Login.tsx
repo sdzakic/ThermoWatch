@@ -7,7 +7,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { FlameIcon } from "lucide-react";
-import { useToast } from "@/components/ui/use-toast";
+import { useTranslation } from "react-i18next";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -16,6 +17,7 @@ export default function Login() {
     const navigate = useNavigate();
     const location = useLocation();
     const { toast } = useToast();
+    const { t } = useTranslation();
 
     const from = location.state?.from?.pathname || "/";
 
@@ -29,8 +31,8 @@ export default function Login() {
         } catch (error: any) {
             toast({
                 variant: "destructive",
-                title: "Login failed",
-                description: error.message || "Please check your credentials and try again.",
+                title: t("login.failed"),
+                description: error.message || t("login.failedDescription"),
             });
         } finally {
             setLoading(false);
@@ -48,16 +50,16 @@ export default function Login() {
                     <div className="mx-auto bg-primary/10 w-16 h-16 rounded-2xl flex items-center justify-center mb-2 shadow-inner">
                         <FlameIcon className="w-8 h-8 text-primary animate-pulse" />
                     </div>
-                    <CardTitle className="text-3xl font-bold tracking-tight">ThermoWatch</CardTitle>
+                    <CardTitle className="text-3xl font-bold tracking-tight">{t("login.title")}</CardTitle>
                     <CardDescription className="text-muted-foreground">
-                        Sign in to access your dashboard
+                        {t("login.subtitle")}
                     </CardDescription>
                 </CardHeader>
                 <form onSubmit={handleLogin}>
                     <CardContent className="space-y-4 pt-4 pb-6 px-8">
                         <div className="space-y-2">
                             <Label htmlFor="email" className="text-sm font-medium">
-                                Email
+                                {t("login.email")}
                             </Label>
                             <Input
                                 id="email"
@@ -72,7 +74,7 @@ export default function Login() {
                         </div>
                         <div className="space-y-2">
                             <Label htmlFor="password" className="text-sm font-medium flex justify-between">
-                                Password
+                                {t("login.password")}
                             </Label>
                             <Input
                                 id="password"
@@ -94,10 +96,10 @@ export default function Login() {
                             {loading ? (
                                 <span className="flex items-center gap-2">
                                     <div className="animate-spin h-4 w-4 border-2 border-primary-foreground border-t-transparent rounded-full" />
-                                    Signing in...
+                                    {t("login.signingIn")}
                                 </span>
                             ) : (
-                                "Sign in"
+                                t("login.signIn")
                             )}
                         </Button>
                     </CardFooter>
@@ -105,7 +107,7 @@ export default function Login() {
             </Card>
 
             <div className="mt-8 text-sm text-muted-foreground/60 font-medium">
-                Secure authentication via Firebase
+                {t("login.secureAuth")}
             </div>
         </div>
     );

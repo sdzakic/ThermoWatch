@@ -1,4 +1,5 @@
 import { Flame, Snowflake, RefreshCw, Power } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export type HeatingMode = "heat" | "cool" | "auto" | "off";
 
@@ -7,17 +8,19 @@ interface ModeSelectorProps {
   onModeChange: (mode: HeatingMode) => void;
 }
 
-const modes: { id: HeatingMode; label: string; icon: typeof Flame }[] = [
-  { id: "heat", label: "Heat", icon: Flame },
-  { id: "cool", label: "Cool", icon: Snowflake },
-  { id: "auto", label: "Auto", icon: RefreshCw },
-  { id: "off", label: "Off", icon: Power },
-];
-
 export function ModeSelector({ currentMode, onModeChange }: ModeSelectorProps) {
+  const { t } = useTranslation();
+
+  const modes: { id: HeatingMode; labelKey: string; icon: typeof Flame }[] = [
+    { id: "heat", labelKey: "mode.heat", icon: Flame },
+    { id: "cool", labelKey: "mode.cool", icon: Snowflake },
+    { id: "auto", labelKey: "mode.auto", icon: RefreshCw },
+    { id: "off", labelKey: "mode.off", icon: Power },
+  ];
+
   return (
     <div className="glass-card p-4">
-      <h3 className="text-sm font-medium text-muted-foreground mb-3">Mode</h3>
+      <h3 className="text-sm font-medium text-muted-foreground mb-3">{t("mode.title")}</h3>
       <div className="grid grid-cols-4 gap-2">
         {modes.map((mode) => {
           const Icon = mode.icon;
@@ -29,7 +32,7 @@ export function ModeSelector({ currentMode, onModeChange }: ModeSelectorProps) {
               className={isActive ? "mode-btn-active" : "mode-btn"}
             >
               <Icon className="w-5 h-5" />
-              <span className="text-xs font-medium">{mode.label}</span>
+              <span className="text-xs font-medium">{t(mode.labelKey)}</span>
             </button>
           );
         })}

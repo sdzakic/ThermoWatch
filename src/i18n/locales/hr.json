@@ -1,0 +1,108 @@
+{
+    "common": {
+        "on": "UKLJ",
+        "off": "ISKLJ",
+        "active": "Aktivno",
+        "standby": "Mirovanje",
+        "connected": "Povezano",
+        "offline": "Izvan mreže",
+        "error": "Greška",
+        "target": "Cilj",
+        "loading": "Učitavanje..."
+    },
+    "login": {
+        "title": "ThermoWatch",
+        "subtitle": "Prijavite se za pristup upravljačkoj ploči",
+        "email": "E-pošta",
+        "password": "Lozinka",
+        "signIn": "Prijava",
+        "signingIn": "Prijavljivanje...",
+        "failed": "Prijava neuspješna",
+        "failedDescription": "Provjerite vjerodajnice i pokušajte ponovo.",
+        "secureAuth": "Sigurna autentifikacija putem Firebase-a"
+    },
+    "index": {
+        "loadingBoilerData": "Učitavanje podataka kotla...",
+        "dataFormatError": "Greška formata podataka",
+        "invalidDataFormat": "Neispravni podaci iz kotla.",
+        "updated": "Ažurirano {{time}}"
+    },
+    "notFound": {
+        "title": "404",
+        "message": "Ups! Stranica nije pronađena",
+        "returnHome": "Povratak na početnu"
+    },
+    "statusHeader": {
+        "justNow": "Upravo sada",
+        "updated": "Ažurirano:"
+    },
+    "diagram": {
+        "systemOverview": "Pregled sustava",
+        "boiler": "Kotao",
+        "fan": "Ventilator",
+        "bufferTank": "Spremnik",
+        "bufferTankLine2": "",
+        "roomTemp": "Sobna temp.",
+        "needed": "potrebno",
+        "hot": "Polaz",
+        "return": "Povrat"
+    },
+    "chart": {
+        "temperatureHistory": "Povijest temperatura",
+        "boiler": "Kotao",
+        "bufferTop": "Spremnik (vrh)",
+        "bufferBottom": "Spremnik (dno)",
+        "room": "Sobna"
+    },
+    "log": {
+        "systemEvents": "Sistemski događaji",
+        "allEvents": "Svi događaji",
+        "errorsOnly": "Samo greške",
+        "warnings": "Upozorenja",
+        "code": "Kod",
+        "description": "Opis",
+        "start": "Početak",
+        "end": "Kraj",
+        "viewAll": "Prikaži svih {{count}} događaja"
+    },
+    "pump": {
+        "pumpActivity": "Aktivnost pumpi"
+    },
+    "furnace": {
+        "furnaceStatus": "Status peći",
+        "running": "Radi",
+        "supply": "Polaz",
+        "runtime": "Rad",
+        "efficiency": "Učinkovitost"
+    },
+    "tempDisplay": {
+        "heating": "Grijanje",
+        "cooling": "Hlađenje",
+        "idle": "Mirovanje",
+        "off": "Isključeno",
+        "setTemperature": "Postavljena temperatura",
+        "decreaseTemp": "Smanji temperaturu",
+        "increaseTemp": "Povećaj temperaturu"
+    },
+    "mode": {
+        "title": "Način rada",
+        "heat": "Grijanje",
+        "cool": "Hlađenje",
+        "auto": "Auto",
+        "off": "Isključeno"
+    },
+    "presets": {
+        "quickPresets": "Brze postavke",
+        "home": "Kod kuće",
+        "away": "Odsutan",
+        "sleep": "Spavanje",
+        "eco": "Eko"
+    },
+    "schedule": {
+        "todaysSchedule": "Današnji raspored"
+    },
+    "header": {
+        "livingRoom": "Dnevni boravak",
+        "smartHeatingControl": "Pametno upravljanje grijanjem"
+    }
+}

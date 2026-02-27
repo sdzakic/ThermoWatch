@@ -243,6 +243,14 @@
   --sidebar-accent-foreground: 200 20% 90%;
   --sidebar-border: 210 25% 18%;
   --sidebar-ring: 192 85% 50%;
+
+  --gradient-background: linear-gradient(180deg, hsl(210 40% 8%), hsl(210 35% 6%));
+  --gradient-card: linear-gradient(145deg, hsl(210 35% 14%), hsl(210 30% 12%));
+
+  --shadow-sm-val: 0 2px 8px -2px hsl(0 0% 0% / 0.3);
+  --shadow-md-val: 0 8px 24px -8px hsl(0 0% 0% / 0.4);
+  --shadow-lg-val: 0 16px 48px -12px hsl(0 0% 0% / 0.5);
+  --shadow-glow-val: 0 0 40px -10px hsl(192 85% 50% / 0.4);
 }
 
 /* ── Base styles ───────────────────────────────────────────────────── */
@@ -284,6 +292,11 @@
     box-shadow: var(--shadow-md-val);
   }
 
+  .dark .glass-card {
+    @apply border-white/10;
+    background: hsl(210 35% 12% / 0.85);
+  }
+
   /* Status badge */
   .status-badge {
     @apply inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium;
@@ -314,6 +327,10 @@
     @apply active:scale-95 hover:shadow-md;
   }
 
+  .dark .control-btn {
+    @apply bg-secondary;
+  }
+
   .control-btn-active {
     @apply w-14 h-14 rounded-full flex items-center justify-center transition-all duration-200;
     @apply border-2 border-primary bg-primary text-primary-foreground;
@@ -336,6 +353,10 @@
   .schedule-card {
     @apply p-4 rounded-xl transition-all duration-200;
     @apply bg-white/60 hover:bg-white border border-transparent hover:border-border;
+  }
+
+  .dark .schedule-card {
+    @apply bg-secondary/40 hover:bg-secondary;
   }
 
   .schedule-card-active {

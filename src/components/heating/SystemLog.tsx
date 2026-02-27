@@ -1,4 +1,5 @@
 import { AlertTriangle, Info, CheckCircle } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 interface LogEntry {
   id: string;
@@ -17,6 +18,7 @@ interface SystemLogProps {
 
 export function SystemLog({ entries, maxEntries = 6 }: SystemLogProps) {
   const displayEntries = entries.slice(0, maxEntries);
+  const { t } = useTranslation();
 
   const getIcon = (type: LogEntry["type"]) => {
     switch (type) {
@@ -44,12 +46,12 @@ export function SystemLog({ entries, maxEntries = 6 }: SystemLogProps) {
   return (
     <div className="glass-card p-4 sm:p-6">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-sm font-medium text-muted-foreground">System Events</h3>
+        <h3 className="text-sm font-medium text-muted-foreground">{t("log.systemEvents")}</h3>
         <div className="flex items-center gap-2">
           <select className="text-xs bg-secondary/50 border-none rounded px-2 py-1 text-foreground">
-            <option>All events</option>
-            <option>Errors only</option>
-            <option>Warnings</option>
+            <option>{t("log.allEvents")}</option>
+            <option>{t("log.errorsOnly")}</option>
+            <option>{t("log.warnings")}</option>
           </select>
         </div>
       </div>
@@ -59,10 +61,10 @@ export function SystemLog({ entries, maxEntries = 6 }: SystemLogProps) {
         <table className="w-full text-xs">
           <thead>
             <tr className="border-b border-border">
-              <th className="text-left py-2 px-3 text-muted-foreground font-medium">Code</th>
-              <th className="text-left py-2 px-3 text-muted-foreground font-medium">Description</th>
-              <th className="text-left py-2 px-3 text-muted-foreground font-medium hidden sm:table-cell">Start</th>
-              <th className="text-left py-2 px-3 text-muted-foreground font-medium hidden sm:table-cell">End</th>
+              <th className="text-left py-2 px-3 text-muted-foreground font-medium">{t("log.code")}</th>
+              <th className="text-left py-2 px-3 text-muted-foreground font-medium">{t("log.description")}</th>
+              <th className="text-left py-2 px-3 text-muted-foreground font-medium hidden sm:table-cell">{t("log.start")}</th>
+              <th className="text-left py-2 px-3 text-muted-foreground font-medium hidden sm:table-cell">{t("log.end")}</th>
             </tr>
           </thead>
           <tbody>
@@ -93,7 +95,7 @@ export function SystemLog({ entries, maxEntries = 6 }: SystemLogProps) {
       {entries.length > maxEntries && (
         <div className="mt-3 text-center">
           <button className="text-xs text-primary hover:underline">
-            View all {entries.length} events
+            {t("log.viewAll", { count: entries.length })}
           </button>
         </div>
       )}

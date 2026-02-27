@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts";
 import { ChevronDown } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 interface DataPoint {
   time: string;
@@ -20,12 +21,13 @@ const timeRanges = ["30 min", "1 hour", "6 hours", "24 hours"];
 
 export function TemperatureChart({ data, timeRange = "30 min", onTimeRangeChange }: TemperatureChartProps) {
   const [isRangeOpen, setIsRangeOpen] = useState(false);
+  const { t } = useTranslation();
 
   return (
     <div className="glass-card p-4 sm:p-6">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-sm font-medium text-muted-foreground">Temperature History</h3>
-        
+        <h3 className="text-sm font-medium text-muted-foreground">{t("chart.temperatureHistory")}</h3>
+
         {/* Time range selector */}
         <div className="relative">
           <button
@@ -35,7 +37,7 @@ export function TemperatureChart({ data, timeRange = "30 min", onTimeRangeChange
             {timeRange}
             <ChevronDown className={`w-4 h-4 transition-transform ${isRangeOpen ? "rotate-180" : ""}`} />
           </button>
-          
+
           {isRangeOpen && (
             <div className="absolute right-0 top-full mt-1 py-1 bg-card border border-border rounded-lg shadow-lg z-10 min-w-24">
               {timeRanges.map((range) => (
@@ -45,9 +47,8 @@ export function TemperatureChart({ data, timeRange = "30 min", onTimeRangeChange
                     onTimeRangeChange?.(range);
                     setIsRangeOpen(false);
                   }}
-                  className={`w-full px-3 py-1.5 text-left text-sm hover:bg-secondary transition-colors ${
-                    range === timeRange ? "text-primary font-medium" : "text-foreground"
-                  }`}
+                  className={`w-full px-3 py-1.5 text-left text-sm hover:bg-secondary transition-colors ${range === timeRange ? "text-primary font-medium" : "text-foreground"
+                    }`}
                 >
                   {range}
                 </button>
@@ -62,13 +63,13 @@ export function TemperatureChart({ data, timeRange = "30 min", onTimeRangeChange
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={data} margin={{ top: 5, right: 5, left: -20, bottom: 5 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" opacity={0.5} />
-            <XAxis 
-              dataKey="time" 
+            <XAxis
+              dataKey="time"
               tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }}
               axisLine={{ stroke: "hsl(var(--border))" }}
               tickLine={{ stroke: "hsl(var(--border))" }}
             />
-            <YAxis 
+            <YAxis
               tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }}
               axisLine={{ stroke: "hsl(var(--border))" }}
               tickLine={{ stroke: "hsl(var(--border))" }}
@@ -86,14 +87,14 @@ export function TemperatureChart({ data, timeRange = "30 min", onTimeRangeChange
               itemStyle={{ fontSize: 12 }}
               formatter={(value: number) => [`${value}°C`]}
             />
-            <Legend 
+            <Legend
               wrapperStyle={{ fontSize: 11, paddingTop: 10 }}
               iconType="line"
             />
             <Line
               type="monotone"
               dataKey="boilerTemp"
-              name="Boiler"
+              name={t("chart.boiler")}
               stroke="hsl(var(--heating))"
               strokeWidth={2}
               dot={false}
@@ -102,7 +103,7 @@ export function TemperatureChart({ data, timeRange = "30 min", onTimeRangeChange
             <Line
               type="monotone"
               dataKey="bufferTop"
-              name="Buffer (top)"
+              name={t("chart.bufferTop")}
               stroke="hsl(var(--primary))"
               strokeWidth={2}
               dot={false}
@@ -111,7 +112,7 @@ export function TemperatureChart({ data, timeRange = "30 min", onTimeRangeChange
             <Line
               type="monotone"
               dataKey="bufferBottom"
-              name="Buffer (bottom)"
+              name={t("chart.bufferBottom")}
               stroke="hsl(var(--cooling))"
               strokeWidth={2}
               dot={false}
@@ -120,7 +121,7 @@ export function TemperatureChart({ data, timeRange = "30 min", onTimeRangeChange
             <Line
               type="monotone"
               dataKey="roomTemp"
-              name="Room"
+              name={t("chart.room")}
               stroke="hsl(var(--success))"
               strokeWidth={2}
               dot={false}

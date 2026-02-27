@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 interface PumpStatusProps {
   pumps: {
     id: string;
@@ -8,6 +10,8 @@ interface PumpStatusProps {
 }
 
 export function PumpStatus({ pumps, dateRange }: PumpStatusProps) {
+  const { t } = useTranslation();
+
   const getStatusColor = (status: "on" | "off" | "standby") => {
     switch (status) {
       case "on":
@@ -22,7 +26,7 @@ export function PumpStatus({ pumps, dateRange }: PumpStatusProps) {
   return (
     <div className="glass-card p-4 sm:p-6">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-sm font-medium text-muted-foreground">Pump Activity</h3>
+        <h3 className="text-sm font-medium text-muted-foreground">{t("pump.pumpActivity")}</h3>
         <span className="text-xs text-muted-foreground">{dateRange}</span>
       </div>
 
@@ -34,15 +38,15 @@ export function PumpStatus({ pumps, dateRange }: PumpStatusProps) {
               <div className="flex items-center gap-3 text-[10px]">
                 <span className="flex items-center gap-1">
                   <span className="w-2 h-2 rounded-full bg-success" />
-                  ON
+                  {t("common.on")}
                 </span>
                 <span className="flex items-center gap-1">
                   <span className="w-2 h-2 rounded-full bg-destructive" />
-                  OFF
+                  {t("common.off")}
                 </span>
               </div>
             </div>
-            
+
             {/* Timeline bar */}
             <div className="flex h-6 rounded-md overflow-hidden border border-border">
               {pump.timeline.map((segment, i) => (

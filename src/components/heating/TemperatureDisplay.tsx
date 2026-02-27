@@ -1,4 +1,5 @@
 import { Flame, Snowflake, Power } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 interface TemperatureDisplayProps {
   currentTemp: number;
@@ -15,28 +16,30 @@ export function TemperatureDisplay({
   onIncrease,
   onDecrease,
 }: TemperatureDisplayProps) {
+  const { t } = useTranslation();
+
   const statusConfig = {
     heating: {
       icon: Flame,
-      label: "Heating",
+      label: t("tempDisplay.heating"),
       ringClass: "temp-ring-heating animate-glow",
       iconColor: "text-heating",
     },
     cooling: {
       icon: Snowflake,
-      label: "Cooling",
+      label: t("tempDisplay.cooling"),
       ringClass: "temp-ring-cooling",
       iconColor: "text-cooling",
     },
     idle: {
       icon: Power,
-      label: "Idle",
+      label: t("tempDisplay.idle"),
       ringClass: "",
       iconColor: "text-idle",
     },
     off: {
       icon: Power,
-      label: "Off",
+      label: t("tempDisplay.off"),
       ringClass: "",
       iconColor: "text-muted-foreground",
     },
@@ -49,13 +52,12 @@ export function TemperatureDisplay({
     <div className="flex flex-col items-center gap-6">
       {/* Status indicator */}
       <div
-        className={`status-badge ${
-          status === "heating"
+        className={`status-badge ${status === "heating"
             ? "status-badge-heating"
             : status === "cooling"
-            ? "status-badge-cooling"
-            : "status-badge-idle"
-        }`}
+              ? "status-badge-cooling"
+              : "status-badge-idle"
+          }`}
       >
         <StatusIcon className="w-4 h-4" />
         <span>{config.label}</span>
@@ -68,10 +70,10 @@ export function TemperatureDisplay({
           <div className="text-7xl sm:text-8xl font-light text-foreground tracking-tight">
             {currentTemp}°
           </div>
-          
+
           {/* Target temperature */}
           <div className="flex items-center gap-2 mt-2">
-            <span className="text-muted-foreground text-sm">Target</span>
+            <span className="text-muted-foreground text-sm">{t("common.target")}</span>
             <span className="text-xl font-medium text-primary">{targetTemp}°</span>
           </div>
         </div>
@@ -82,20 +84,20 @@ export function TemperatureDisplay({
         <button
           onClick={onDecrease}
           className="control-btn group"
-          aria-label="Decrease temperature"
+          aria-label={t("tempDisplay.decreaseTemp")}
         >
           <span className="text-2xl text-muted-foreground group-hover:text-primary transition-colors">−</span>
         </button>
-        
+
         <div className="text-center">
           <div className="text-3xl font-semibold text-foreground">{targetTemp}°C</div>
-          <div className="text-sm text-muted-foreground">Set Temperature</div>
+          <div className="text-sm text-muted-foreground">{t("tempDisplay.setTemperature")}</div>
         </div>
-        
+
         <button
           onClick={onIncrease}
           className="control-btn group"
-          aria-label="Increase temperature"
+          aria-label={t("tempDisplay.increaseTemp")}
         >
           <span className="text-2xl text-muted-foreground group-hover:text-primary transition-colors">+</span>
         </button>

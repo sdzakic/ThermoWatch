@@ -1,4 +1,5 @@
 import { Flame } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 interface HeatingSystemDiagramProps {
   boilerTemp: number;
@@ -26,6 +27,8 @@ function Pump({
   label: string;
   className?: string;
 }) {
+  const { t } = useTranslation();
+
   return (
     <div className={`flex flex-col items-center ${className}`}>
       <div
@@ -55,7 +58,7 @@ function Pump({
       </div>
       <span className="text-[10px] text-muted-foreground mt-1 font-medium">{label}</span>
       <span className={`text-[9px] ${isRunning ? "text-success" : "text-idle"}`}>
-        {isRunning ? "ON" : "OFF"}
+        {isRunning ? t("common.on") : t("common.off")}
       </span>
     </div>
   );
@@ -76,10 +79,12 @@ export function HeatingSystemDiagram({
   fanSpeed = 5.0,
   oxygenLevel = 8.3,
 }: HeatingSystemDiagramProps) {
+  const { t } = useTranslation();
+
   return (
     <div className="glass-card p-4 sm:p-6">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-sm font-medium text-muted-foreground">System Overview</h3>
+        <h3 className="text-sm font-medium text-muted-foreground">{t("diagram.systemOverview")}</h3>
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
             <span className="text-[10px] text-muted-foreground">P1:</span>
@@ -91,7 +96,7 @@ export function HeatingSystemDiagram({
           </div>
           <div className="flex items-center gap-2">
             <span className={`w-2 h-2 rounded-full ${isBoilerRunning ? "bg-heating animate-pulse" : "bg-idle"}`} />
-            <span className="text-xs text-muted-foreground">{isBoilerRunning ? "Active" : "Standby"}</span>
+            <span className="text-xs text-muted-foreground">{isBoilerRunning ? t("common.active") : t("common.standby")}</span>
           </div>
         </div>
       </div>
@@ -173,7 +178,7 @@ export function HeatingSystemDiagram({
 
         {/* Boiler Unit */}
         <div className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 w-24 sm:w-28">
-          <div className={`relative rounded-xl border-2 ${isBoilerRunning ? "border-heating bg-gradient-to-t from-heating/20 to-heating/5" : "border-idle bg-secondary/30"} p-3`}>
+          <div className={`relative rounded-xl border-2 ${isBoilerRunning ? "border-heating bg-linear-to-t from-heating/20 to-heating/5" : "border-idle bg-secondary/30"} p-3`}>
             {/* Fire visualization */}
             <div className="flex justify-center mb-2">
               {isBoilerRunning ? (
@@ -183,7 +188,7 @@ export function HeatingSystemDiagram({
                 </div>
               ) : (
                 <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
-                  <span className="text-xs text-muted-foreground">OFF</span>
+                  <span className="text-xs text-muted-foreground">{t("common.off")}</span>
                 </div>
               )}
             </div>
@@ -193,13 +198,13 @@ export function HeatingSystemDiagram({
               <div className={`text-xl sm:text-2xl font-bold ${isBoilerRunning ? "text-heating" : "text-foreground"}`}>
                 {boilerTemp}°C
               </div>
-              <div className="text-[10px] text-muted-foreground">Boiler</div>
+              <div className="text-[10px] text-muted-foreground">{t("diagram.boiler")}</div>
             </div>
 
             {/* Stats */}
             <div className="mt-2 pt-2 border-t border-border/50 space-y-1">
               <div className="flex justify-between text-[10px]">
-                <span className="text-muted-foreground">Fan</span>
+                <span className="text-muted-foreground">{t("diagram.fan")}</span>
                 <span className="text-foreground">{fanSpeed}%</span>
               </div>
               <div className="flex justify-between text-[10px]">
@@ -228,8 +233,10 @@ export function HeatingSystemDiagram({
 
             {/* Tank label */}
             <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 text-center">
-              <div className="text-[9px] text-muted-foreground uppercase tracking-wider">Buffer</div>
-              <div className="text-[9px] text-muted-foreground uppercase tracking-wider">Tank</div>
+              <div className="text-[9px] text-muted-foreground uppercase tracking-wider">{t("diagram.bufferTank")}</div>
+              {t("diagram.bufferTankLine2") && (
+                <div className="text-[9px] text-muted-foreground uppercase tracking-wider">{t("diagram.bufferTankLine2")}</div>
+              )}
             </div>
 
             {/* Bottom temp */}
@@ -247,12 +254,12 @@ export function HeatingSystemDiagram({
         {/* Radiator / Room */}
         <div className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 w-24 sm:w-32">
           {/* Radiator */}
-          <div className="rounded-lg border-2 border-border bg-gradient-to-b from-heating/10 to-cooling/10 p-2 mb-2">
+          <div className="rounded-lg border-2 border-border bg-linear-to-b from-heating/10 to-cooling/10 p-2 mb-2">
             <div className="flex gap-0.5 justify-center mb-1">
               {[...Array(6)].map((_, i) => (
                 <div
                   key={i}
-                  className={`w-1.5 sm:w-2 h-8 sm:h-10 rounded-sm ${isPump2Running ? "bg-gradient-to-b from-heating to-cooling" : "bg-muted"}`}
+                  className={`w-1.5 sm:w-2 h-8 sm:h-10 rounded-sm ${isPump2Running ? "bg-linear-to-b from-heating to-cooling" : "bg-muted"}`}
                 />
               ))}
             </div>
@@ -265,10 +272,10 @@ export function HeatingSystemDiagram({
           {/* Room temperature */}
           <div className="rounded-xl border-2 border-primary bg-card p-2 sm:p-3 text-center shadow-lg">
             <div className="text-xl sm:text-2xl font-bold text-foreground">{roomTemp}°C</div>
-            <div className="text-[10px] text-muted-foreground">Room Temp</div>
+            <div className="text-[10px] text-muted-foreground">{t("diagram.roomTemp")}</div>
 
             <div className="flex flex-col items-center justify-center gap-0.5 mt-2 pt-2 border-t border-border/50 text-[10px]">
-              <span className="text-muted-foreground font-medium">Target</span>
+              <span className="text-muted-foreground font-medium">{t("common.target")}</span>
               <div className="flex items-center gap-1">
                 <span>{roomTempSetting}°</span>
                 <span className="text-muted-foreground">+</span>
@@ -282,7 +289,7 @@ export function HeatingSystemDiagram({
 
             {roomTemp < (roomTempSetting + roomTempCorrection) && (
               <div className="mt-1 text-[9px] text-heating animate-pulse font-medium">
-                +{(roomTempSetting + roomTempCorrection - roomTemp).toFixed(1)}° needed
+                +{(roomTempSetting + roomTempCorrection - roomTemp).toFixed(1)}° {t("diagram.needed")}
               </div>
             )}
           </div>
@@ -292,11 +299,11 @@ export function HeatingSystemDiagram({
         <div className="absolute bottom-2 left-2 flex items-center gap-4 text-[9px]">
           <div className="flex items-center gap-1">
             <div className="w-4 h-1 rounded bg-heating" />
-            <span className="text-muted-foreground">Hot</span>
+            <span className="text-muted-foreground">{t("diagram.hot")}</span>
           </div>
           <div className="flex items-center gap-1">
             <div className="w-4 h-1 rounded bg-cooling" />
-            <span className="text-muted-foreground">Return</span>
+            <span className="text-muted-foreground">{t("diagram.return")}</span>
           </div>
         </div>
       </div>
