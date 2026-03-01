@@ -85,7 +85,7 @@ export function TemperatureChart({ data, timeRange = "30 min", onTimeRangeChange
               }}
               labelStyle={{ color: "hsl(var(--foreground))", fontWeight: 500 }}
               itemStyle={{ fontSize: 12 }}
-              formatter={(value: number) => [`${value}°C`]}
+              formatter={(value: number) => [`${value.toFixed(2)}°C`]}
             />
             <Legend
               wrapperStyle={{ fontSize: 11, paddingTop: 10 }}
